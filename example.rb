@@ -13,7 +13,6 @@ OpenSSL::SSL::VERIFY_PEER = OpenSSL::SSL::VERIFY_NONE
 #
 # AZURE_TENANT_ID: with your Azure Active Directory tenant id or domain
 # AZURE_CLIENT_ID: with your Azure Active Directory Application Client ID
-# AZURE_CLIENT_SECRET: with your Azure Active Directory Application Secret
 # AZURE_SUBSCRIPTION_ID: with your Azure Subscription Id
 #
 def run_example

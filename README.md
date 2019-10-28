@@ -21,9 +21,7 @@ using the Azure Ruby SDK.
     - [List resource groups](#list-groups)
     - [Create a resource group](#create-group)
     - [Update a resource group](#update-group)
-    - [Create a key vault in the resource group](#create-resource)
     - [List resources within the group](#list-resources)
-    - [Export the resource group template](#export)
     - [Delete a resource group](#delete-group)
 
 <a id="run"></a>
@@ -53,18 +51,17 @@ using the Azure Ruby SDK.
 1. 	If not available, 
     [create a subscription](https://docs.microsoft.com/en-us/azure/azure-stack/azure-stack-subscribe-plan-provision-vm) 
     and save the subscription ID to be used later.  
-
-1. Create a [service principal](https://docs.microsoft.com/en-us/azure/azure-stack/azure-stack-create-service-principals) to work against AzureStack. Make sure your service principal has [contributor/owner role](https://docs.microsoft.com/en-us/azure/azure-stack/azure-stack-create-service-principals#assign-role-to-service-principal) on your subscription.
-    
+   
 
 1. Set the following environment variables using the information from the service principal that you created.
 
     ```
     export AZURE_TENANT_ID={your tenant id}
     export AZURE_CLIENT_ID={your client id}
-    export AZURE_CLIENT_SECRET={your client secret}
+    export user={your username for the Data Box Edge}
+    export password={your password for the Data Box Edge}
     export AZURE_SUBSCRIPTION_ID={your subscription id}
-    export ARM_ENDPOINT={your AzureStack Resource manager url}
+    export ARM_ENDPOINT={your Data Box Edge Resource manager url}
     ```
 
     > [AZURE.NOTE] On Windows, use `set` instead of `export`.
@@ -98,7 +95,8 @@ active_directory_settings = get_active_directory_settings(ENV['ARM_ENDPOINT'])
 provider = MsRestAzure::ApplicationTokenProvider.new(
 	ENV['AZURE_TENANT_ID'],
 	ENV['AZURE_CLIENT_ID'],
-	ENV['AZURE_CLIENT_SECRET'],
+    ENV['user'],
+    ENV['password'],
 	active_directory_settings
 )
 
@@ -118,7 +116,7 @@ It also sets up a ResourceGroup object (resource_group_params) to be used as a p
 
 ```ruby
 resource_group_params = Azure::ARM::Resources::Models::ResourceGroup.new.tap do |rg|
-    rg.location = `local`
+    rg.location = `devicelocation`
 end
 ```
 
@@ -150,49 +148,11 @@ The sample adds a tag to the resource group.
 resource_group_params.tags = { hello: 'world' }
 client.resource_groups.create_or_update('azure-sample-group', resource_group_params)
 ```
-
-<a id="create-resource"></a>
-### Create a key vault in the resource group
-
-```ruby
-key_vault_params = Azure::ARM::Resources::Models::GenericResource.new.tap do |rg|
-    rg.location = WEST_US
-    rg.properties = {
-        sku: { family: 'A', name: 'standard' },
-        tenantId: ENV['AZURE_TENANT_ID'],
-        accessPolicies: [],
-        enabledForDeployment: true,
-        enabledForTemplateDeployment: true,
-        enabledForDiskEncryption: true
-    }
-  end
-  client.resources.create_or_update(GROUP_NAME,
-                                    'Microsoft.KeyVault',
-                                    '',
-                                    'vaults',
-                                    'azureSampleVault',
-                                    '2015-06-01',
-                                    key_vault_params)
-```
-
 <a id="list-resources"></a>
 ### List resources within the group
 
 ```ruby
 client.resource_groups.list_resources(GROUP_NAME).value.each{ |resource| print_item(resource) }
-```
-
-<a id="export"></a>
-### Export the resource group template
-
-You can export the resource group as a template and then use that
-to [deploy your resources to Azure](https://azure.microsoft.com/documentation/samples/resource-manager-ruby-template-deployment/).
-
-```ruby
-export_params = Azure::ARM::Resources::Models::ExportTemplateRequest.new.tap do |rg|
-    rg.resources = ['*']
-end
-client.resource_groups.export_template(GROUP_NAME, export_params)
 ```
 
 <a id="delete-group"></a>
