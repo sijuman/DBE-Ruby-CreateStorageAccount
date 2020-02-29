@@ -40,7 +40,7 @@ GEM
       unf_ext (= 0.0.7.2)
     multipart-post (2.1.1)
     public_suffix (4.0.1)
-    rake (11.3.0)
+    rake (12.3.3)
     rspec (3.9.0)
       rspec-core (~> 3.9.0)
       rspec-expectations (~> 3.9.0)
@@ -58,6 +58,7 @@ GEM
     timeliness (0.3.10)
     unf (0.1.4)
       unf_ext
+    unf_ext (0.0.7.2)
     unf_ext (0.0.7.2-x64-mingw32)
     vcr (3.0.3)
     webmock (2.3.2)
@@ -66,6 +67,7 @@ GEM
       hashdiff
 
 PLATFORMS
+  ruby
   x64-mingw32
 
 DEPENDENCIES
@@ -76,7 +78,7 @@ DEPENDENCIES
   climate_control
   dotenv (~> 2.1)
   haikunator (~> 1.1)
-  rake (~> 11.1)
+  rake (~> 12.3)
   rspec (~> 3.4)
   vcr (~> 3.0)
   webmock (~> 2.0)
