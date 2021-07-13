@@ -1,7 +1,7 @@
 GEM
   remote: https://rubygems.org/
   specs:
-    addressable (2.7.0)
+    addressable (2.8.0)
       public_suffix (>= 2.0.2, < 5.0)
     azure_mgmt_compute (0.18.7)
       ms_rest_azure (~> 0.11.1)
@@ -39,7 +39,7 @@ GEM
       ms_rest (~> 0.7.4)
       unf_ext (= 0.0.7.2)
     multipart-post (2.1.1)
-    public_suffix (4.0.1)
+    public_suffix (4.0.6)
     rake (11.3.0)
     rspec (3.9.0)
       rspec-core (~> 3.9.0)
@@ -58,6 +58,7 @@ GEM
     timeliness (0.3.10)
     unf (0.1.4)
       unf_ext
+    unf_ext (0.0.7.2)
     unf_ext (0.0.7.2-x64-mingw32)
     vcr (3.0.3)
     webmock (2.3.2)
@@ -67,6 +68,7 @@ GEM
 
 PLATFORMS
   x64-mingw32
+  x86_64-linux
 
 DEPENDENCIES
   azure_mgmt_compute (~> 0.18.6)
